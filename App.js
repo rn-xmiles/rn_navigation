@@ -84,6 +84,7 @@ class DetailsScreen extends Component<DetailsProps> {
     static navigationOptions: ({ navigation: any, screenProps: any, navigationOptions: any }) => any = ({ navigation }) => ({
         title: navigation.getParam('otherParam', 'A Nested Details Screen'),
         headerRight: <Button title="+1" color="#fff" onPress={navigation.getParam('increaseCount')} />,
+        headerBackTitle: 'A',
     })
 
     state = {
@@ -166,6 +167,7 @@ const HomeStack = createStackNavigator(
     {
         initialRouteName: 'Home',
         /* The header config from HomeScreen is now here */
+        // screen component 将继承这个设置
         defaultNavigationOptions: {
             headerStyle: {
                 backgroundColor: '#f4511e',
@@ -175,6 +177,8 @@ const HomeStack = createStackNavigator(
                 fontWeight: 'bold',
             },
         },
+
+        // stack navigator自己的 options
         navigationOptions: {
             tabBarLabel: '主页',
         },
