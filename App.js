@@ -7,13 +7,19 @@
  */
 
 import React, { Component } from 'react'
-import { Platform, StyleSheet, Text, View, Button } from 'react-native'
+import { Platform, StyleSheet, Text, View, Button, Image } from 'react-native'
 import { createAppContainer, createStackNavigator, createBottomTabNavigator /* NavigationEvents */ } from 'react-navigation'
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
     android: 'Double tap R on your keyboard to reload,\n' + 'Shake or press menu button for dev menu',
 })
+
+class LogoTitle extends Component<{}> {
+    render() {
+        return <Image source={require('./x-icon.png')} style={{ width: 30, height: 30 }} />
+    }
+}
 
 type HomeProps = {
     navigation: {
@@ -23,6 +29,18 @@ type HomeProps = {
 
 // HomeScreen
 class HomeScreen extends Component<HomeProps> {
+    static navigationOptions = {
+        // title: '主页',
+        headerTitle: <LogoTitle />,
+        headerStyle: {
+            backgroundColor: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+    }
+
     goDetails = () => {
         const { navigation } = this.props
 
@@ -58,9 +76,14 @@ type DetailsProps = {
         push: (name: string) => void,
         goBack: () => void,
         getParam: (param: string, def: string) => void,
+        setParams: (params: any) => void,
     },
 }
 class DetailsScreen extends Component<DetailsProps> {
+    static navigationOptions: ({ navigation: any, screenProps: any, navigationOptions: any }) => any = ({ navigation }) => ({
+        title: navigation.getParam('otherParam', 'A Nested Details Screen'),
+    })
+
     render() {
         /* 2. Get the param, provide a fallback value if not available */
         const { navigation } = this.props
@@ -80,6 +103,7 @@ class DetailsScreen extends Component<DetailsProps> {
                 <Button title="Go to Details Again" onPress={() => this.props.navigation.push('Details')} />
                 <Button title="Go to Home" onPress={() => this.props.navigation.navigate('Home')} />
                 <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
+                <Button title="update the title" onPress={() => this.props.navigation.setParams({ otherParam: 'Updated!' })} />
             </View>
         )
     }
@@ -127,13 +151,33 @@ const HomeStack = createStackNavigator(
     },
     {
         initialRouteName: 'Home',
+        /* The header config from HomeScreen is now here */
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+        },
+        navigationOptions: {
+            tabBarLabel: '主页',
+        },
     }
 )
 
-const SettingsStack = createStackNavigator({
-    Settings: SettingsScreen,
-    Profile: ProfileScreen,
-})
+const SettingsStack = createStackNavigator(
+    {
+        Settings: SettingsScreen,
+        Profile: ProfileScreen,
+    },
+    {
+        navigationOptions: {
+            tabBarLabel: '设置',
+        },
+    }
+)
 
 const TabNavigator = createBottomTabNavigator({
     Home: HomeStack,
