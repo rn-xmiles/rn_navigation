@@ -39,6 +39,7 @@ class HomeScreen extends Component<HomeProps> {
         headerTitleStyle: {
             fontWeight: 'bold',
         },
+        headerRight: <Button title="Info" color="#fff" onPress={() => alert('This is a Button')} />,
     }
 
     goDetails = () => {
@@ -75,14 +76,27 @@ type DetailsProps = {
         navigate: (name: string) => void,
         push: (name: string) => void,
         goBack: () => void,
-        getParam: (param: string, def: string) => void,
+        getParam: (param: string, defaultValue: string) => void,
         setParams: (params: any) => void,
     },
 }
 class DetailsScreen extends Component<DetailsProps> {
     static navigationOptions: ({ navigation: any, screenProps: any, navigationOptions: any }) => any = ({ navigation }) => ({
         title: navigation.getParam('otherParam', 'A Nested Details Screen'),
+        headerRight: <Button title="+1" color="#fff" onPress={navigation.getParam('increaseCount')} />,
     })
+
+    state = {
+        count: 1,
+    }
+
+    componentDidMount() {
+        this.props.navigation.setParams({ increaseCount: this._increaseCount })
+    }
+
+    _increaseCount = () => {
+        this.setState({ count: this.state.count + 1 })
+    }
 
     render() {
         /* 2. Get the param, provide a fallback value if not available */
@@ -97,7 +111,7 @@ class DetailsScreen extends Component<DetailsProps> {
                     alignItems: 'center',
                 }}
             >
-                <Text>Detail Screen</Text>
+                <Text>Detail Screen {this.state.count}</Text>
                 <Text>itemId: {JSON.stringify(itemId)}</Text>
                 <Text>otherParam: {JSON.stringify(otherParam)}</Text>
                 <Button title="Go to Details Again" onPress={() => this.props.navigation.push('Details')} />
