@@ -80,7 +80,11 @@ type DetailsProps = {
         setParams: (params: any) => void,
     },
 }
-class DetailsScreen extends Component<DetailsProps> {
+
+type DetailsState = {
+    count: number
+}
+class DetailsScreen extends Component<DetailsProps, DetailsState> {
     static navigationOptions: ({ navigation: any, screenProps: any, navigationOptions: any }) => any = ({ navigation }) => ({
         title: navigation.getParam('otherParam', 'A Nested Details Screen'),
         headerRight: <Button title="+1" color="#fff" onPress={navigation.getParam('increaseCount')} />,
