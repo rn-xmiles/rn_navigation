@@ -82,14 +82,18 @@ type DetailsProps = {
 }
 
 type DetailsState = {
-    count: number
+    count: number,
 }
 class DetailsScreen extends Component<DetailsProps, DetailsState> {
-    static navigationOptions: ({ navigation: any, screenProps: any, navigationOptions: any }) => any = ({ navigation }) => ({
-        title: navigation.getParam('otherParam', 'A Nested Details Screen'),
-        headerRight: <Button title="+1" color="#fff" onPress={navigation.getParam('increaseCount')} />,
-        headerBackTitle: 'A',
-    })
+    static navigationOptions: ({ navigation: any, screenProps: any, navigationOptions: any }) => any = ({ navigation }) => {
+        const params = navigation.state.params || {}
+        return {
+            title: navigation.getParam('otherParam', 'A Nested Details Screen'),
+            headerRight: <Button title="+1" color="#fff" onPress={navigation.getParam('increaseCount')} />,
+            headerBackTitle: 'A',
+            headerLeft: <Button title="Info" color="#fff" onPress={() => navigation.navigate('MyModal')} />,
+        }
+    }
 
     state = {
         count: 1,
@@ -128,6 +132,17 @@ class DetailsScreen extends Component<DetailsProps, DetailsState> {
     }
 }
 
+class ModalScreen extends Component<DetailsProps> {
+    render() {
+        return (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontSize: 30 }}>This is a Modal</Text>
+                <Button title="dismiss" onPress={() => this.props.navigation.goBack()} />
+            </View>
+        )
+    }
+}
+
 class SettingsScreen extends Component<{}> {
     render() {
         return (
@@ -160,7 +175,7 @@ class ProfileScreen extends Component<{}> {
     }
 }
 
-const HomeStack = createStackNavigator(
+const MainStack = createStackNavigator(
     {
         // Home: {
         //     screen: HomeScreen
@@ -183,9 +198,9 @@ const HomeStack = createStackNavigator(
         },
 
         // stack navigator自己的 options
-        navigationOptions: {
-            tabBarLabel: '主页',
-        },
+        // navigationOptions: {
+        //     tabBarLabel: '主页',
+        // },
     }
 )
 
@@ -201,8 +216,27 @@ const SettingsStack = createStackNavigator(
     }
 )
 
+const MainModalStack = createStackNavigator(
+    {
+        Main: {
+            screen: MainStack,
+        },
+        MyModal: {
+            screen: ModalScreen,
+        },
+    },
+    {
+        // stack navigator自己的 options
+        navigationOptions: {
+            tabBarLabel: '主页',
+        },
+        mode: 'modal',
+        headerMode: 'none', // 很关键，表示这个Stack 没有header
+    }
+)
+
 const TabNavigator = createBottomTabNavigator({
-    Home: HomeStack,
+    MainModal: MainModalStack,
     Settings: SettingsStack,
 })
 
