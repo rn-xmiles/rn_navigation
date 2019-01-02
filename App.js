@@ -9,6 +9,9 @@
 import React, { Component } from 'react'
 import { Platform, StyleSheet, Text, View, Button, Image } from 'react-native'
 import { createAppContainer, createStackNavigator, createBottomTabNavigator /* NavigationEvents */ } from 'react-navigation'
+// You can import Ionicons from @expo/vector-icons if you use Expo or
+// react-native-vector-icons/Ionicons otherwise.
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -235,10 +238,56 @@ const MainModalStack = createStackNavigator(
     }
 )
 
-const TabNavigator = createBottomTabNavigator({
-    MainModal: MainModalStack,
-    Settings: SettingsStack,
-})
+// 定义一个Tab Icon组件
+type TabBarIconProps = {
+    focused: boolean,
+    horizontal: boolean,
+    tintColor: string,
+}
+
+function IconWrapper(navigation: any) {
+    return function TabBarIcon(props: TabBarIconProps) {
+        const { focused, horizontal, tintColor } = props
+        const { routeName } = navigation.state
+        let iconName
+        if (routeName === 'MainModal') {
+            iconName = `ios-${focused ? 'aperture' : 'analytics'}`
+        } else if (routeName === 'Settings') {
+            iconName = `ios-${focused ? 'flower' : 'finger-print'}`
+        }
+        // You can return any component that you like here! We usually use an
+        // icon component from react-native-vector-icons
+        return <Ionicons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />
+    }
+}
+
+const TabNavigator = createBottomTabNavigator(
+    {
+        MainModal: MainModalStack,
+        Settings: SettingsStack,
+    },
+    {
+        defaultNavigationOptions: ({ navigation }) => ({
+            tabBarIcon: IconWrapper(navigation),
+            // tabBarIcon: ({ focused, horizontal, tintColor }) => {
+            //     const { routeName } = navigation.state
+            //     let iconName
+            //     if (routeName === 'MainModal') {
+            //         iconName = `ios-${focused ? 'aperture' : 'analytics'}`
+            //     } else if (routeName === 'Settings') {
+            //         iconName = `ios-${focused ? 'flower' : 'finger-print'}`
+            //     }
+            //     // You can return any component that you like here! We usually use an
+            //     // icon component from react-native-vector-icons
+            //     return <Ionicons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />
+            // },
+        }),
+        tabBarOptions: {
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'gray',
+        },
+    }
+)
 
 const AppContainer = createAppContainer(TabNavigator)
 

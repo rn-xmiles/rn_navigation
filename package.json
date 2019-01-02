@@ -11,10 +11,10 @@
         "react-native": "0.57.8",
         "react-native-gesture-handler": "^1.0.12",
         "react-native-navigation": "^2.4.0",
+        "react-native-vector-icons": "^6.1.0",
         "react-navigation": "^3.0.9"
     },
     "devDependencies": {
-        "stylelint": "^9.9.0",
         "babel-eslint": "^10.0.1",
         "babel-jest": "23.6.0",
         "eslint": "^5.11.1",
@@ -23,6 +23,7 @@
         "jest": "23.6.0",
         "metro-react-native-babel-preset": "0.51.1",
         "react-test-renderer": "16.6.3",
+        "stylelint": "^9.9.0",
         "stylelint-config-react-native-css-modules": "^2.1.0",
         "stylelint-react-native": "^2.0.1"
     },
