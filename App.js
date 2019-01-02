@@ -250,10 +250,13 @@ function IconWrapper(navigation: any) {
         const { focused, horizontal, tintColor } = props
         const { routeName } = navigation.state
         let iconName
+        // @see https://ionicons.com/usage ionic图标不同平台加不同前缀
         if (routeName === 'MainModal') {
-            iconName = `ios-${focused ? 'aperture' : 'analytics'}`
+            // iconName = `ios-${focused ? 'aperture' : 'analytics'}`
+            iconName = `md-${focused ? 'aperture' : 'analytics'}`
         } else if (routeName === 'Settings') {
-            iconName = `ios-${focused ? 'flower' : 'finger-print'}`
+            // iconName = `ios-${focused ? 'flower' : 'finger-print'}`
+            iconName = `md-${focused ? 'flower' : 'finger-print'}`
         }
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
