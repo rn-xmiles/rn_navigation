@@ -1,5 +1,7 @@
 # React-Navigation
 
-## Preview
+### Preview
 
-![step one](./r-1.png)
+Current progress
+
+<img width="300" src="./r-1.png">
