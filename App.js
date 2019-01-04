@@ -8,10 +8,15 @@
 
 import React, { Component } from 'react'
 import { Platform, StyleSheet, Text, View, Button, Image } from 'react-native'
-import { createAppContainer, createStackNavigator, createBottomTabNavigator /* NavigationEvents */ } from 'react-navigation'
+import {
+    createAppContainer,
+    createStackNavigator,
+    createBottomTabNavigator /* NavigationEvents */,
+} from 'react-navigation'
 // You can import Ionicons from @expo/vector-icons if you use Expo or
 // react-native-vector-icons/Ionicons otherwise.
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import TextInputComponent from './src/TextInputComponent'
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -88,7 +93,9 @@ type DetailsState = {
     count: number,
 }
 class DetailsScreen extends Component<DetailsProps, DetailsState> {
-    static navigationOptions: ({ navigation: any, screenProps: any, navigationOptions: any }) => any = ({ navigation }) => {
+    static navigationOptions: ({ navigation: any, screenProps: any, navigationOptions: any }) => any = ({
+        navigation,
+    }) => {
         const params = navigation.state.params || {}
         return {
             title: navigation.getParam('otherParam', 'A Nested Details Screen'),
@@ -129,7 +136,10 @@ class DetailsScreen extends Component<DetailsProps, DetailsState> {
                 <Button title="Go to Details Again" onPress={() => this.props.navigation.push('Details')} />
                 <Button title="Go to Home" onPress={() => this.props.navigation.navigate('Home')} />
                 <Button title="Go Back" onPress={() => this.props.navigation.goBack()} />
-                <Button title="update the title" onPress={() => this.props.navigation.setParams({ otherParam: 'Updated!' })} />
+                <Button
+                    title="update the title"
+                    onPress={() => this.props.navigation.setParams({ otherParam: 'Updated!' })}
+                />
             </View>
         )
     }
@@ -156,7 +166,7 @@ class SettingsScreen extends Component<{}> {
                     alignItems: 'center',
                 }}
             >
-                <Text>Settings Screen</Text>
+                <TextInputComponent />
             </View>
         )
     }
